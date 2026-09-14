@@ -1,5 +1,7 @@
 package main;
 
+import main.jeude.DiceBean;
+
 import java.util.Scanner;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
@@ -25,9 +27,19 @@ public class Main {
 //        crepe(10);
 //        crepe(42);
         //crepeInteractive();
-        boulangerie(5, 6);
-        int resultat = minuteToSecond(5);
-        System.out.println(resultat);
+//        boulangerie(5, 6);
+//        int resultat = minuteToSecond(5);
+//        System.out.println(resultat);
+
+        DiceBean dice = new DiceBean();
+        for (int i = 0; i < 5; i++) {
+
+            dice.roll();
+            System.out.println(dice.getValue());
+        }
+
+
+
     }
 
     public static void crepeInteractive() {
