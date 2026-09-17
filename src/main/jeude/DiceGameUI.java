@@ -1,6 +1,8 @@
 package main.jeude;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -88,7 +90,14 @@ public class DiceGameUI extends JPanel implements ActionListener {
 
 
         jcbP1 = new JCheckBox("Tricheur");
+        jcbP1.addChangeListener(e -> {
+               partyBean.getJ1().setCheater(jcbP1.isSelected());
+        });
+
         jcbP2 = new JCheckBox("Tricheur");
+        jcbP2.addChangeListener(e -> {
+            partyBean.getJ2().setCheater(jcbP2.isSelected());
+        });
         jlMessage = new JLabel("");
 
         //adjust size and set layout

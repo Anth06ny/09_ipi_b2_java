@@ -5,10 +5,14 @@ public class PlayerBean {
     private String name;
     private int score = 0;
     private CupBean cup = new CupBean();
+    private boolean cheater = false;
+
 
     public PlayerBean(String name) {
         this.name = name;
     }
+
+
 
     public void roll(){
         cup.roll();
@@ -40,5 +44,16 @@ public class PlayerBean {
 
     public void setCup(CupBean cup) {
         this.cup = cup;
+    }
+
+
+    public boolean isCheater() {
+        return cheater;
+    }
+
+    public void setCheater(boolean cheater) {
+        this.cheater = cheater;
+        cup = new CupBean(cheater);
+
     }
 }

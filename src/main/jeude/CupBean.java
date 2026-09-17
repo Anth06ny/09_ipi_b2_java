@@ -2,10 +2,23 @@ package main.jeude;
 
 public class CupBean {
 
-    private DiceBean d1 = new DiceBean(),d2= new DiceBean();
+    private DiceBean d1, d2;
+
+    public CupBean() {
+        this(false) ;
+    }
+
+    public CupBean(boolean cheater) {
+        if (cheater) {
+            d1 = new LoadedDiceBean(6);
+        } else {
+            d1 = new DiceBean();
+        }
+        d2 = new DiceBean();
+    }
 
 
-    public void roll(){
+    public void roll() {
         d1.roll();
         d2.roll();
     }
