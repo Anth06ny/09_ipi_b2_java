@@ -34,9 +34,9 @@ public class DiceGameUI extends JPanel implements ActionListener {
      */
     public DiceGameUI() {
         //construct components
-        jlP1 = new JLabel("Joueur 1");
+        jlP1 = new JLabel(partyBean.getJ1().getName());
 
-        jlP2 = new JLabel("Joueur 2");
+        jlP2 = new JLabel(partyBean.getJ2().getName());
 
         lblD1 = new JLabel("DE 1");
 
@@ -47,8 +47,10 @@ public class DiceGameUI extends JPanel implements ActionListener {
         jtfScoreP1 = new JTextField();
 
         jtfD1 = new JTextField();
+        jtfD1.setText(partyBean.getJ1().getCup().getD1().getValue() + "");
 
         jtfD2 = new JTextField();
+        jtfD2.setText(partyBean.getJ1().getCup().getD2().getValue() + "");
 
         jtfScoreP2 = new JTextField();
 
@@ -56,18 +58,38 @@ public class DiceGameUI extends JPanel implements ActionListener {
 
         lblTour = new JLabel("Tour : ");
 
-        jlTourNumber = new JLabel("0");
+        jlTourNumber = new JLabel(partyBean.getRound() + "");
 
         jbRollP1 = new JButton("Lancer");
         jbRollP1.addActionListener(this);
 
+
         jbRollP2 = new JButton("Lancer");
         jbRollP2.addActionListener(this);
+        jbRollP2.setVisible(false);
 
         jbRestart = new JButton("Restart");
+        jbRestart.setVisible(false);
+        jbRestart.addActionListener(e -> {
+               partyBean = new PartyBean(partyBean.getJ1().getName(), partyBean.getJ2().getName());
+
+               //mise à jour graphque :
+            jtfD1.setText(partyBean.getJ2().getCup().getD1().getValue() + "");
+            jtfD2.setText(partyBean.getJ2().getCup().getD2().getValue() + "");
+            jtfScoreP1.setText(partyBean.getJ1().getScore() + "");
+            jtfScoreP2.setText(partyBean.getJ2().getScore() + "");
+            jlTourNumber.setText(partyBean.getRound() + "");
+            jbRollP1.setVisible(true);
+            jbRollP2.setVisible(false);
+            jbRestart.setVisible(false);
+            jlMessage.setText("");
+
+        });
+
+
         jcbP1 = new JCheckBox("Tricheur");
         jcbP2 = new JCheckBox("Tricheur");
-        jlMessage = new JLabel("Le joueur 1 a gagn\u00E9");
+        jlMessage = new JLabel("");
 
         //adjust size and set layout
         setPreferredSize(new Dimension(682, 403));
@@ -140,18 +162,41 @@ public class DiceGameUI extends JPanel implements ActionListener {
             jtfD1.setText(partyBean.getJ1().getCup().getD1().getValue() + "");
             jtfD2.setText(partyBean.getJ1().getCup().getD2().getValue() + "");
             jtfScoreP1.setText(partyBean.getJ1().getScore() + "");
+            jbRollP1.setVisible(false);
+            jbRollP2.setVisible(true);
+
+
         } else if (e.getSource() == jbRollP2) {
-            //Le joueur 1 lance
+            //Le joueur 2 lance
             //Modification des données
             partyBean.getJ2().roll();
             if (partyBean.getJ2().getCup().getScoreDice() >= 7) {
                 partyBean.getJ2().add1Point();
             }
+            partyBean.add1Round();
 
             //Modification de l'UI
             jtfD1.setText(partyBean.getJ2().getCup().getD1().getValue() + "");
             jtfD2.setText(partyBean.getJ2().getCup().getD2().getValue() + "");
             jtfScoreP2.setText(partyBean.getJ2().getScore() + "");
+            jlTourNumber.setText(partyBean.getRound() + "");
+            jbRollP1.setVisible(true);
+            jbRollP2.setVisible(false);
+
+            if(partyBean.getRound() == 4) {
+                jbRollP1.setVisible(false);
+                jbRollP2.setVisible(false);
+                jbRestart.setVisible(true);
+
+                //affichage gagnant
+                if(partyBean.winner() != null) {
+                    jlMessage.setText(partyBean.winner().getName() + " a gagné");
+                }
+                else {
+                    jlMessage.setText("Egalité");
+                }
+
+            }
         }
     }
 }

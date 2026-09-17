@@ -22,6 +22,10 @@ public class PartyBean {
         }
     }
 
+    public void add1Round(){
+        round++;
+    }
+
 
 
     public PlayerBean getJ1() {

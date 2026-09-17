@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class DiceBean {
 
-    private int value;
+    private int value = 1;
 
 
     public void roll(){
